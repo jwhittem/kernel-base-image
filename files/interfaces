@@ -1,0 +1,18 @@
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface, YMMV
+auto enp1s0
+allow-hotplug enp1s0
+iface enp1s0 inet dhcp
+
+## static IP,
+# iface enp1s0  inet static
+#  address 192.168.122.201
+#  netmask 255.255.255.0
+#  gateway 192.168.122.1
+#  dns-domain home.arpa
+#  dns-nameservers 1.1.1.1 8.8.8.8
