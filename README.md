@@ -14,6 +14,7 @@ You will need KVM, and packer installed to build.  Simply run `make` to build th
 
 Overview of the image configuration:
 
+- Install build utilities for the kernel, see [install.sh](scripts/install.sh)
 - Installs [cloud-init] for run once tasks, and for future automation
 - Allows user provided `authorized_keys` file applied to user `debian` by placing it in `files/` prior to build
 - Displays ip address at login screen

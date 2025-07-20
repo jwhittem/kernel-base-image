@@ -8,8 +8,10 @@ update-grub
 echo "localepurge	localepurge/use-dpkg-feature	boolean	true" | debconf-set-selections
 echo "localepurge	localepurge/nopurge	multiselect	en, en_US.UTF-8"  | debconf-set-selections
 
-apt-get update
+curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg | tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
+curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.tailscale-keyring.list | tee /etc/apt/sources.list.d/tailscale.list
 
+apt-get update
 apt-get install -y --no-install-recommends \
     apt-transport-https \
     autoconf \
@@ -41,6 +43,7 @@ apt-get install -y --no-install-recommends \
     make \
     openssl \
     qemu-guest-agent \
+    tailscale \
     vim \
     wget \
     xz-utils
