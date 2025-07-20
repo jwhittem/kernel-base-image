@@ -8,9 +8,6 @@ update-grub
 echo "localepurge	localepurge/use-dpkg-feature	boolean	true" | debconf-set-selections
 echo "localepurge	localepurge/nopurge	multiselect	en, en_US.UTF-8"  | debconf-set-selections
 
-curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg | tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
-curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.tailscale-keyring.list | tee /etc/apt/sources.list.d/tailscale.list
-
 apt-get update
 apt-get install -y --no-install-recommends \
     apt-transport-https \
@@ -43,10 +40,18 @@ apt-get install -y --no-install-recommends \
     make \
     openssl \
     qemu-guest-agent \
-    tailscale \
     vim \
     wget \
     xz-utils
+
+if [ -f tailscale.key ]; then
+  KEY=$(cat tailscale.key)
+  curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg | tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
+  curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.tailscale-keyring.list | tee /etc/apt/sources.list.d/tailscale.list
+  apt update
+  apt install tailscale
+  tailscale up --auth-key $KEY
+fi
 
 install -m 644  /home/debian/kernel-base-image/files/vimrc /root/.vimrc
 install -m 644 -D /home/debian/kernel-base-image/files/no-clear.conf /etc/systemd/system/getty@tty1.service.d/no-clear.conf
