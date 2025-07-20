@@ -44,13 +44,12 @@ apt-get install -y --no-install-recommends \
     wget \
     xz-utils
 
-if [ -f tailscale.key ]; then
-  KEY=$(cat tailscale.key)
-  curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg | tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null
-  curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.tailscale-keyring.list | tee /etc/apt/sources.list.d/tailscale.list
-  apt update
-  apt install tailscale
-  tailscale up --auth-key $KEY
+if [ -f /home/debian/kernel-base-image/files/tailscale.key ]; then
+  install -m 400 /home/debian/kernel-base-image/files/tailscale.key /etc/tailscale.key
+fi
+
+if [ -f /home/debian/kernel-base-image/files/authorized_keys ]; then
+  install -m 644 -D -o debian -g debian /home/debian/kernel-base-image/files/authorized_keys /home/debian/.ssh/authorized_keys
 fi
 
 install -m 644  /home/debian/kernel-base-image/files/vimrc /root/.vimrc
@@ -59,10 +58,6 @@ install -m 644 /home/debian/kernel-base-image/files/1_debian_config.cfg /etc/clo
 install -m 644 /home/debian/kernel-base-image/files/interfaces /etc/network/interfaces
 install -m 644 /home/debian/kernel-base-image/files/issue /etc/issue
 install -m 755 -D /home/debian/kernel-base-image/files/run-once.sh /var/lib/cloud/scripts/per-instance/run-once.sh
-
-if test -f /home/debian/kernel-base-image/files/authorized_keys; then
-    install -m 644 -D -o debian -g debian /home/debian/kernel-base-image/files/authorized_keys /home/debian/.ssh/authorized_keys
-fi
 
 systemctl add-wants multi-user.target cloud-init.target
 systemctl enable qemu-guest-agent
