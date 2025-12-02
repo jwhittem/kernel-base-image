@@ -66,8 +66,6 @@ systemctl enable --now serial-getty@ttyS0.service
 apt-get install --yes deborphan
 apt-get autoremove \
   console-setup \
-  $(deborphan) \
-  deborphan \
   dictionaries-common \
   iamerican \
   ibritish \

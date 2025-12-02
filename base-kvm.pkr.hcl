@@ -11,7 +11,7 @@ variables {
   output_dir = "output"
   output_name = "kernel-base-image.qcow2"
   source_checksum_url = "file:https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/SHA256SUMS"
-  source_iso  = "https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/debian-12.11.0-amd64-netinst.iso"
+  source_iso  = ""
   ssh_password = "debian"
   ssh_username = "debian"
 }
