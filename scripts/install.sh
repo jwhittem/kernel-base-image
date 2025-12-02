@@ -63,7 +63,6 @@ systemctl add-wants multi-user.target cloud-init.target
 systemctl enable qemu-guest-agent
 systemctl enable --now serial-getty@ttyS0.service
 
-apt-get install --yes deborphan
 apt-get autoremove \
   console-setup \
   dictionaries-common \
